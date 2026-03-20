@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 import { 
   Users, 
   MessageSquare, 
@@ -36,6 +39,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, change, isPositive, i
 );
 
 const Home = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
   const stats = [
     { title: 'Total Reviews', value: '1,284', change: 12.5, isPositive: true, icon: MessageSquare },
     { title: 'Average Rating', value: '4.8', change: 0.2, isPositive: true, icon: Star },
@@ -52,20 +56,42 @@ const Home = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold">Dashboard Overview</h1>
-          <p className="text-slate-500">Welcome back! Here's what's happening today.</p>
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">
+            Dashboard Overview
+          </h1>
+          <p className="text-slate-500">
+            {user ? `Welcome back, ${user.name}! Here's what's happening today.` : "Welcome! See how businesses manage their reputation."}
+          </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 transition-colors">
-            <RefreshCcw className="w-4 h-4" />
-            Sync Now
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors shadow-lg shadow-primary/20">
-            <Plus className="w-4 h-4" />
-            Create Campaign
-          </button>
+          <Link 
+            to="/f/demo-business" 
+            className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-xl font-bold hover:bg-primary/20 transition-all border border-primary/20"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Preview Review Funnel
+          </Link>
+          {user ? (
+            <>
+              <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 transition-colors">
+                <RefreshCcw className="w-4 h-4" />
+                Sync Now
+              </button>
+              <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors shadow-lg shadow-primary/20">
+                <Plus className="w-4 h-4" />
+                Create Campaign
+              </button>
+            </>
+          ) : (
+            <Link 
+              to="/signup"
+              className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-xl font-bold hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
+            >
+              Get Started Free
+            </Link>
+          )}
         </div>
       </div>
 

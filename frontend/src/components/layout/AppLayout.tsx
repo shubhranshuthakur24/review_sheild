@@ -82,22 +82,39 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
           {/* User Profile Footer */}
           <div className="p-4 border-t border-border-light dark:border-border-dark">
-            <div className="flex items-center gap-3 p-3 rounded-xl">
-              <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
-                <User className="w-6 h-6 text-slate-500" />
+            {user ? (
+              <div className="flex items-center gap-3 p-3 rounded-xl">
+                <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                  <User className="w-6 h-6 text-slate-500" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{user.name}</p>
+                  <p className="text-xs text-slate-500 truncate">{user.email}</p>
+                </div>
+                <button 
+                  onClick={() => dispatch(logout())}
+                  className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+                  title="Logout"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{user?.name || 'Jane Doe'}</p>
-                <p className="text-xs text-slate-500 truncate">{user?.email || 'admin@reviewshield.com'}</p>
+            ) : (
+              <div className="p-2 space-y-2">
+                <Link 
+                  to="/login"
+                  className="block w-full py-2 px-4 text-center text-sm font-bold text-primary hover:bg-primary/5 rounded-xl transition-colors border border-primary/20"
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  to="/signup"
+                  className="block w-full py-2 px-4 text-center text-sm font-bold bg-primary text-white hover:bg-primary-dark rounded-xl transition-colors shadow-lg shadow-primary/20"
+                >
+                  Join Now
+                </Link>
               </div>
-              <button 
-                onClick={() => dispatch(logout())}
-                className="p-2 text-slate-400 hover:text-red-500 transition-colors"
-                title="Logout"
-              >
-                <LogOut className="w-5 h-5" />
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </aside>
@@ -120,10 +137,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             </button>
             <div className="h-8 w-px bg-border-light dark:border-border-dark" />
             <Link 
-              to="/profile"
-              className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden"
+              to={user ? "/profile" : "/login"}
+              className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden hover:scale-105 transition-transform"
             >
-              {user?.name?.[0] || 'J'}
+              {user?.name?.[0] || <User className="w-4 h-4" />}
             </Link>
           </div>
         </header>

@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
+import FunnelPage from './pages/funnel/FunnelPage';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -33,6 +34,11 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   }
   
   return <>{children}</>;
+};
+
+// Layout wrapping without auth guard
+const LayoutRoute = ({ children }: { children: React.ReactNode }) => {
+  return <AppLayout>{children}</AppLayout>;
 };
 
 function App() {
@@ -57,13 +63,17 @@ function App() {
           } 
         />
 
+        {/* Public Funnel */}
+        <Route path="/f/:id" element={<FunnelPage />} />
+
         {/* Protected Routes */}
+        {/* Public Dashboard (Accessible to all) */}
         <Route 
           path="/" 
           element={
-            <ProtectedRoute>
+            <LayoutRoute>
               <Home />
-            </ProtectedRoute>
+            </LayoutRoute>
           } 
         />
         <Route 
