@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #aa3bff;
+  --color-primary-light: #c084fc;
+  --color-primary-dark: #8b2ed3;
+  --color-bg-light: #ffffff;
+  --color-bg-dark: #0f172a;
+  --color-surface-light: #f8fafc;
+  --color-surface-dark: #1e293b;
+  --color-border-light: #e2e8f0;
+  --color-border-dark: #334155;
+  --color-text-light: #1e293b;
+  --color-text-dark: #f1f5f9;
+}
+
+:root {
+  --background: var(--color-bg-light);
+  --foreground: var(--color-text-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-bg-dark);
+    --foreground: var(--color-text-dark);
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  @apply backdrop-blur-md bg-opacity-70 border border-white/20;
+}
+
+.dark .glass {
+  @apply bg-opacity-30 border-white/10;
+}
+
+/* Transitions */
+.page-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
