@@ -25,7 +25,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const navigation = [
-    { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Review Inbox', href: '/reviews', icon: MessageSquare },
     { name: 'Analytics', href: '/analytics', icon: BarChart3 },
     { name: 'Profile', href: '/profile', icon: User },
