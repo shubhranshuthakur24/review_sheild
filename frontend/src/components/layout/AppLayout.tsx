@@ -8,17 +8,21 @@ import {
   LogOut, 
   LayoutDashboard, 
   Bell, 
-  Menu, 
-  X 
+  Menu
 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
+import { RootState } from '../../store';
 
-const AppLayout = ({ children }) => {
+interface AppLayoutProps {
+  children: React.ReactNode;
+}
+
+const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -28,7 +32,7 @@ const AppLayout = ({ children }) => {
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">

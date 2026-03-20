@@ -1,0 +1,85 @@
+import React from 'react';
+import { 
+  BrowserRouter as Router, 
+  Routes, 
+  Route, 
+  Navigate 
+} from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
+import AppLayout from './components/layout/AppLayout';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Profile from './pages/Profile';
+
+// Protected Route Wrapper
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <AppLayout>{children}</AppLayout>;
+};
+
+// Public Route Wrapper (redirects to home if already logged in)
+const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route 
+          path="/login" 
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } 
+        />
+        <Route 
+          path="/signup" 
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          } 
+        />
+
+        {/* Protected Routes */}
+        <Route 
+          path="/" 
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* Placeholder for other routes */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
