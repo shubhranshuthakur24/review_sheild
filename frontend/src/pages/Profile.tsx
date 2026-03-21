@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  User, 
-  Mail, 
-  MapPin, 
-  Globe, 
-  Bell, 
-  Shield, 
+import {
+  User,
+  Mail,
+  MapPin,
+  Globe,
+  Bell,
+  Shield,
   Save,
   Camera,
   ExternalLink
@@ -13,12 +13,12 @@ import {
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
-const Profile: React.FC = () => {
+const Settings: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const [activeTab, setActiveTab] = useState<string>('profile');
 
   const tabs = [
-    { id: 'profile', name: 'Profile Information', icon: User },
+    { id: 'profile', name: 'Profile', icon: User },
     { id: 'business', name: 'Business Details', icon: Globe },
     { id: 'notifications', name: 'Notifications', icon: Bell },
     { id: 'security', name: 'Security', icon: Shield },
@@ -55,8 +55,8 @@ const Profile: React.FC = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`
                 w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all
-                ${activeTab === tab.id 
-                  ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                ${activeTab === tab.id
+                  ? 'bg-primary text-white shadow-lg shadow-primary/20'
                   : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary'}
               `}
             >
@@ -74,29 +74,29 @@ const Profile: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-500 mb-1.5">First Name</label>
-                    <input 
-                      type="text" 
-                      defaultValue={user?.name?.split(' ')[0] || 'Jane'} 
+                    <input
+                      type="text"
+                      defaultValue={user?.name?.split(' ')[0] || 'Jane'}
                       className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-500 mb-1.5">Last Name</label>
-                    <input 
-                      type="text" 
-                      defaultValue={user?.name?.split(' ')[1] || 'Doe'} 
+                    <input
+                      type="text"
+                      defaultValue={user?.name?.split(' ')[1] || 'Doe'}
                       className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-slate-500 mb-1.5">Email Address</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input 
-                      type="email" 
-                      defaultValue={user?.email || 'jane@example.com'} 
+                    <input
+                      type="email"
+                      defaultValue={user?.email || 'jane@example.com'}
                       className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                     />
                   </div>
@@ -106,9 +106,9 @@ const Profile: React.FC = () => {
                   <label className="block text-sm font-medium text-slate-500 mb-1.5">Location</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input 
-                      type="text" 
-                      defaultValue="New York, USA" 
+                    <input
+                      type="text"
+                      defaultValue="New York, USA"
                       className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                     />
                   </div>
@@ -120,9 +120,9 @@ const Profile: React.FC = () => {
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-500 mb-1.5">Business Name</label>
-                  <input 
-                    type="text" 
-                    defaultValue="Review Shield Agency" 
+                  <input
+                    type="text"
+                    defaultValue="Review Shield Agency"
                     className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                   />
                 </div>
@@ -130,9 +130,9 @@ const Profile: React.FC = () => {
                   <label className="block text-sm font-medium text-slate-500 mb-1.5">Website URL</label>
                   <div className="relative">
                     <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input 
-                      type="url" 
-                      defaultValue="https://reviewshield.com" 
+                    <input
+                      type="url"
+                      defaultValue="https://reviewshield.com"
                       className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                     />
                   </div>
@@ -158,4 +158,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default Settings;

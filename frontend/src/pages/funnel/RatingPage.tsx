@@ -7,7 +7,7 @@ import { RootState } from '../../store';
 const RatingPage: React.FC = () => {
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
   const dispatch = useDispatch();
-  const { businessName } = useSelector((state: RootState) => state.funnel);
+  const { businessName, branding } = useSelector((state: RootState) => state.funnel);
 
   const handleRatingClick = (selectedRating: number) => {
     dispatch(setRating(selectedRating));
@@ -26,11 +26,11 @@ const RatingPage: React.FC = () => {
   return (
     <div className="text-center space-y-10 animate-in fade-in zoom-in-95 duration-500">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-          Rate your visit to <br />
-          <span className="text-primary">{businessName}</span>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight">
+          How was your visit to <br />
+          <span style={{ color: branding.primaryColor }}>{businessName}</span>?
         </h2>
-        <p className="text-slate-500 font-medium">Click on a star to provide your rating</p>
+        <p className="text-slate-500 font-medium tracking-tight">Tap any star to share your thoughts.</p>
       </div>
 
       {/* Star Selector */}

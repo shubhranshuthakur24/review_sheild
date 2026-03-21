@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  BarChart3, 
-  MessageSquare, 
-  Settings, 
-  User, 
-  LogOut, 
-  LayoutDashboard, 
-  Bell, 
+import {
+  BarChart3,
+  MessageSquare,
+  Settings,
+  User,
+  LogOut,
+  LayoutDashboard,
+  Bell,
   Menu
 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -28,7 +28,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Review Inbox', href: '/reviews', icon: MessageSquare },
     { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-    { name: 'Profile', href: '/profile', icon: User },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
@@ -38,7 +37,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
@@ -68,8 +67,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 to={item.href}
                 className={`
                   flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
-                  ${isActive(item.href) 
-                    ? 'bg-primary/10 text-primary font-medium' 
+                  ${isActive(item.href)
+                    ? 'bg-primary/10 text-primary font-medium'
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary'}
                 `}
                 onClick={() => setIsSidebarOpen(false)}
@@ -91,7 +90,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   <p className="text-sm font-medium truncate">{user.name}</p>
                   <p className="text-xs text-slate-500 truncate">{user.email}</p>
                 </div>
-                <button 
+                <button
                   onClick={() => dispatch(logout())}
                   className="p-2 text-slate-400 hover:text-red-500 transition-colors"
                   title="Logout"
@@ -101,13 +100,13 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               </div>
             ) : (
               <div className="p-2 space-y-2">
-                <Link 
+                <Link
                   to="/login"
                   className="block w-full py-2 px-4 text-center text-sm font-bold text-primary hover:bg-primary/5 rounded-xl transition-colors border border-primary/20"
                 >
                   Sign In
                 </Link>
-                <Link 
+                <Link
                   to="/signup"
                   className="block w-full py-2 px-4 text-center text-sm font-bold bg-primary text-white hover:bg-primary-dark rounded-xl transition-colors shadow-lg shadow-primary/20"
                 >
@@ -123,7 +122,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       <div className="lg:pl-64 flex flex-col min-h-screen">
         {/* Top Header */}
         <header className="h-16 flex items-center justify-between px-6 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md border-b border-border-light dark:border-border-dark sticky top-0 z-30">
-          <button 
+          <button
             className="lg:hidden p-2 -ml-2 text-slate-500"
             onClick={() => setIsSidebarOpen(true)}
           >
@@ -136,7 +135,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark" />
             </button>
             <div className="h-8 w-px bg-border-light dark:border-border-dark" />
-            <Link 
+            <Link
               to={user ? "/profile" : "/login"}
               className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden hover:scale-105 transition-transform"
             >
