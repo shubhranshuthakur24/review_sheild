@@ -23,14 +23,14 @@ describe('Funnel Regression Flow', () => {
 
     // 3. Action Page (Positive)
     renderWithProviders(<ActionPage />, { store });
-    expect(screen.getByText(/boost our reputation/i)).toBeInTheDocument();
+    expect(screen.getByText(/so glad you enjoyed it/i)).toBeInTheDocument();
     const feedbackBtn = screen.getByText(/share private feedback/i);
     fireEvent.click(feedbackBtn);
     expect(store.getState().funnel.currentStep).toBe('feedback');
 
     // 4. Feedback Page
     renderWithProviders(<FeedbackPage />, { store });
-    const textarea = screen.getByPlaceholderText(/describe your experience/i);
+    const textarea = screen.getByPlaceholderText(/Tell us what happened/i);
     fireEvent.change(textarea, { target: { value: 'Everything was perfect!' } });
     const submitBtn = screen.getByText(/submit feedback/i);
     fireEvent.click(submitBtn);
@@ -43,6 +43,6 @@ describe('Funnel Regression Flow', () => {
     fireEvent.click(threeStar);
     
     renderWithProviders(<ActionPage />, { store });
-    expect(screen.getByText(/let us make it right/i)).toBeInTheDocument();
+    expect(screen.getByText(/We'd love to make it right/i)).toBeInTheDocument();
   });
 });

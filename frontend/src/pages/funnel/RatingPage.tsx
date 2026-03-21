@@ -42,6 +42,7 @@ const RatingPage: React.FC = () => {
               onMouseEnter={() => setHoveredRating(star)}
               onMouseLeave={() => setHoveredRating(null)}
               onClick={() => handleRatingClick(star)}
+              aria-label={`${star} stars`}
               className="relative p-1 transition-transform active:scale-90 hover:scale-110"
             >
               <Star
