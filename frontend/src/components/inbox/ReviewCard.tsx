@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Review } from '../../store/slices/reviewsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { Review, toggleSelection } from '../../store/slices/reviewsSlice';
 import { 
   Star, 
   Reply, 
@@ -21,8 +23,11 @@ interface ReviewCardProps {
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review, viewMode }) => {
+  const dispatch = useDispatch();
   const [isExpanding, setIsExpanding] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
+  const selectedIds = useSelector((state: RootState) => state.reviews.selectedIds);
+  const isSelected = selectedIds.includes(review.id);
 
   const getSentimentStyles = (sentiment: Review['sentiment']) => {
     switch (sentiment) {
@@ -36,16 +41,28 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, viewMode }) => {
     switch (platform) {
       case 'google': return <div className="w-6 h-6 flex items-center justify-center bg-white border border-slate-100 rounded shadow-sm text-xs font-black">G</div>;
       case 'facebook': return <div className="w-6 h-6 flex items-center justify-center bg-[#1877F2] text-white rounded shadow-sm text-xs font-black">f</div>;
+      case 'trustpilot': return <div className="w-6 h-6 flex items-center justify-center bg-[#00b67a] text-white rounded shadow-sm text-[10px] font-black uppercase">T</div>;
       default: return <div className="w-6 h-6 flex items-center justify-center bg-slate-900 text-white rounded shadow-sm text-[10px] font-black uppercase">{platform.charAt(0)}</div>;
     }
   };
 
   return (
-    <div className={`bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl transition-all hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-none overflow-hidden group ${isReplying ? 'ring-2 ring-primary/20' : ''}`}>
-      <div className={`p-6 ${viewMode === 'list' ? 'flex flex-col md:flex-row gap-6' : 'space-y-4'}`}>
+    <div className={`bg-white dark:bg-slate-900 border transition-all hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-none overflow-hidden group relative rounded-3xl ${isSelected ? 'border-primary ring-1 ring-primary' : 'border-slate-200 dark:border-slate-800'} ${isReplying ? 'ring-2 ring-primary/20' : ''}`}>
+      
+      {/* Selection Checkbox (Overlay) */}
+      <div className={`absolute top-4 left-4 z-10 transition-opacity ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+        <input 
+          type="checkbox" 
+          checked={isSelected}
+          onChange={() => dispatch(toggleSelection(review.id))}
+          className="w-5 h-5 rounded-lg border-2 border-slate-200 text-primary focus:ring-primary/20 transition-all cursor-pointer shadow-sm"
+        />
+      </div>
+
+      <div className={`p-6 ${viewMode === 'list' ? 'flex flex-col md:flex-row gap-6' : 'space-y-4'} ${isSelected ? 'bg-primary/5' : ''}`}>
         
         {/* Left Side: Meta & Rating */}
-        <div className={`${viewMode === 'list' ? 'w-full md:w-56 shrink-0' : 'flex justify-between items-start w-full'}`}>
+        <div className={`${viewMode === 'list' ? 'w-full md:w-56 shrink-0' : 'flex justify-between items-start w-full'} ${viewMode === 'list' ? 'pl-8' : ''}`}>
           <div className="space-y-3 w-full">
             <div className="flex items-center justify-between">
               {getPlatformIcon(review.platform)}

@@ -40,10 +40,6 @@ const Settings: React.FC = () => {
           <h1 className="text-3xl font-bold">{user?.name || 'Jane Doe'}</h1>
           <p className="text-slate-500">Manage your account settings and preferences</p>
         </div>
-        <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all">
-          <Save className="w-4 h-4" />
-          Save Changes
-        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -113,6 +109,13 @@ const Settings: React.FC = () => {
                     />
                   </div>
                 </div>
+
+                <div className="pt-4 flex justify-end">
+                  <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all">
+                    <Save className="w-4 h-4" />
+                    Save Profile
+                  </button>
+                </div>
               </div>
             )}
 
@@ -136,6 +139,13 @@ const Settings: React.FC = () => {
                       className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                     />
                   </div>
+                </div>
+
+                <div className="pt-4 flex justify-end">
+                  <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all">
+                    <Save className="w-4 h-4" />
+                    Save Business Details
+                  </button>
                 </div>
               </div>
             )}

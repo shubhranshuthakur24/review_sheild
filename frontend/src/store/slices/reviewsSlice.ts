@@ -21,11 +21,14 @@ export interface Review {
 interface ReviewsState {
   items: Review[];
   loading: boolean;
+  selectedIds: string[];
   filters: {
     platform: Platform | 'all';
     rating: number | 'all';
     sentiment: Sentiment | 'all';
     isReplied: boolean | 'all';
+    location: string | 'all';
+    dateRange: 'all' | 'today' | '7d' | '30d';
     search: string;
   };
 }
@@ -65,14 +68,28 @@ const initialState: ReviewsState = {
       sentiment: 'positive',
       isReplied: false,
       location: 'Westside'
+    },
+    {
+      id: 'rev-4',
+      platform: 'trustpilot',
+      rating: 5,
+      text: 'Absolutely love the new menu. Highly recommend the espresso martini.',
+      author: 'Emily Blunt',
+      date: '2024-03-10T14:20:00Z',
+      sentiment: 'positive',
+      isReplied: false,
+      location: 'Airport'
     }
   ],
   loading: false,
+  selectedIds: [],
   filters: {
     platform: 'all',
     rating: 'all',
     sentiment: 'all',
     isReplied: 'all',
+    location: 'all',
+    dateRange: 'all',
     search: ''
   }
 };
@@ -95,12 +112,44 @@ const reviewsSlice = createSlice({
     setFilters: (state, action: PayloadAction<Partial<ReviewsState['filters']>>) => {
       state.filters = { ...state.filters, ...action.payload };
     },
-    bulkAction: (_state, action: PayloadAction<{ ids: string[]; type: 'archive' | 'reply' }>) => {
-      // Logic for bulk actions
-      console.log(`Bulk ${action.payload.type} for:`, action.payload.ids);
+    toggleSelection: (state, action: PayloadAction<string>) => {
+      if (state.selectedIds.includes(action.payload)) {
+        state.selectedIds = state.selectedIds.filter(id => id !== action.payload);
+      } else {
+        state.selectedIds.push(action.payload);
+      }
+    },
+    selectAll: (state, action: PayloadAction<string[]>) => {
+      state.selectedIds = action.payload;
+    },
+    clearSelection: (state) => {
+      state.selectedIds = [];
+    },
+    bulkDelete: (state) => {
+      state.items = state.items.filter(item => !state.selectedIds.includes(item.id));
+      state.selectedIds = [];
+    },
+    bulkMarkReplied: (state) => {
+      state.items.forEach(item => {
+        if (state.selectedIds.includes(item.id)) {
+          item.isReplied = true;
+          item.replyText = 'Replied via bulk action';
+          item.replyDate = new Date().toISOString();
+        }
+      });
+      state.selectedIds = [];
     }
   }
 });
 
-export const { setReviews, updateReviewReply, setFilters, bulkAction } = reviewsSlice.actions;
+export const { 
+  setReviews, 
+  updateReviewReply, 
+  setFilters, 
+  toggleSelection, 
+  selectAll, 
+  clearSelection,
+  bulkDelete,
+  bulkMarkReplied
+} = reviewsSlice.actions;
 export default reviewsSlice.reducer;

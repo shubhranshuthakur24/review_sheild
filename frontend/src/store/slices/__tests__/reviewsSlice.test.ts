@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import reviewsReducer, { setFilters, updateReviewReply } from '../reviewsSlice';
+import reviewsReducer, { 
+  setFilters, 
+  updateReviewReply, 
+  toggleSelection, 
+  selectAll, 
+  clearSelection, 
+  bulkDelete, 
+  bulkMarkReplied 
+} from '../reviewsSlice';
 
 describe('reviewsSlice', () => {
   const initialState = {
@@ -14,37 +22,64 @@ describe('reviewsSlice', () => {
         sentiment: 'positive',
         isReplied: false,
         location: 'Downtown'
+      },
+      {
+        id: '2',
+        author: 'Jane Smith',
+        rating: 4,
+        text: 'Good experience.',
+        platform: 'facebook',
+        date: '2024-03-21T11:00:00Z',
+        sentiment: 'positive',
+        isReplied: false,
+        location: 'Westside'
       }
     ],
+    selectedIds: [],
     filters: {
       platform: 'all',
       rating: 'all',
       sentiment: 'all',
       isReplied: 'all',
+      location: 'all',
+      dateRange: 'all',
       search: ''
     },
-    status: 'idle',
-    error: null
+    loading: false
   };
 
   it('should handle setFilters', () => {
-    const actual = reviewsReducer(initialState as any, setFilters({ platform: 'facebook' }));
+    const actual = reviewsReducer(initialState as any, setFilters({ platform: 'facebook', location: 'Westside' }));
     expect(actual.filters.platform).toBe('facebook');
-    expect(actual.filters.rating).toBe('all');
+    expect(actual.filters.location).toBe('Westside');
   });
 
-  it('should handle updateReviewReply', () => {
-    const replyText = 'Thank you for your feedback!';
-    const actual = reviewsReducer(initialState as any, updateReviewReply({ id: '1', replyText }));
+  it('should handle selection logic', () => {
+    let state = reviewsReducer(initialState as any, toggleSelection('1'));
+    expect(state.selectedIds).toContain('1');
     
-    const review = actual.items.find(i => i.id === '1');
-    expect(review?.isReplied).toBe(true);
-    expect(review?.replyText).toBe(replyText);
-    expect(review?.replyDate).toBeDefined();
+    state = reviewsReducer(state, toggleSelection('1'));
+    expect(state.selectedIds).not.toContain('1');
+
+    state = reviewsReducer(state, selectAll(['1', '2']));
+    expect(state.selectedIds).toHaveLength(2);
+
+    state = reviewsReducer(state, clearSelection());
+    expect(state.selectedIds).toHaveLength(0);
   });
 
-  it('should not update reply for non-existent id', () => {
-    const actual = reviewsReducer(initialState as any, updateReviewReply({ id: '99', replyText: 'Hi' }));
-    expect(actual.items[0].isReplied).toBe(false);
+  it('should handle bulkDelete', () => {
+    const stateWithSelection = { ...initialState, selectedIds: ['1'] };
+    const actual = reviewsReducer(stateWithSelection as any, bulkDelete());
+    expect(actual.items).toHaveLength(1);
+    expect(actual.items[0].id).toBe('2');
+    expect(actual.selectedIds).toHaveLength(0);
+  });
+
+  it('should handle bulkMarkReplied', () => {
+    const stateWithSelection = { ...initialState, selectedIds: ['1', '2'] };
+    const actual = reviewsReducer(stateWithSelection as any, bulkMarkReplied());
+    expect(actual.items.every(i => i.isReplied)).toBe(true);
+    expect(actual.selectedIds).toHaveLength(0);
   });
 });
