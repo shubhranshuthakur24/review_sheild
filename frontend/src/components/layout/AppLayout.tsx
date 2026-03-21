@@ -26,7 +26,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Review Inbox', href: '/reviews', icon: MessageSquare },
+    { name: 'Review Inbox', href: '/inbox', icon: MessageSquare },
+    { name: 'Alerts', href: '/alerts', icon: Bell },
     { name: 'Analytics', href: '/analytics', icon: BarChart3 },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];

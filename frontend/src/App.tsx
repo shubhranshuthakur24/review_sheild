@@ -13,6 +13,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import FunnelPage from './pages/funnel/FunnelPage';
 import Settings from './pages/Profile';
+import Inbox from './pages/dashboard/InboxPage';
+import Alerts from './pages/dashboard/AlertsPage';
+import Insights from './pages/dashboard/InsightsPage';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -78,6 +81,30 @@ function App() {
           element={
             <ProtectedRoute>
               <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/inbox"
+          element={
+            <ProtectedRoute>
+              <Inbox />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/alerts"
+          element={
+            <ProtectedRoute>
+              <Alerts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Insights />
             </ProtectedRoute>
           }
         />

@@ -26,6 +26,7 @@ const authSlice = createSlice({
       state.loading = false
       state.user = action.payload
       state.isAuthenticated = true
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     loginFailure: (state, action) => {
       state.loading = false
@@ -34,6 +35,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null
       state.isAuthenticated = false
+      localStorage.removeItem('user');
     },
   },
 })

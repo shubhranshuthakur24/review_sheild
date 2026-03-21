@@ -12,6 +12,7 @@ import {
   Plus,
   ExternalLink
 } from 'lucide-react';
+import FunnelChart from '../components/analytics/FunnelChart';
 
 interface StatCardProps {
   title: string;
@@ -122,23 +123,26 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Redirect CTR Breakdown */}
-        <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold text-lg">Redirect Performance</h3>
-            <span className="text-primary text-sm font-bold">Total: 482 clicks</span>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            {Object.entries(metrics.redirectCTR).map(([platform, ctr]) => (
-              <div key={platform} className="flex-1 min-w-[120px] p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 transition-transform hover:-translate-y-1">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{platform}</span>
-                <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{ctr}%</div>
-                <div className="mt-2 h-1 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                  <div className="h-full bg-primary" style={{ width: `${ctr}%` }} />
-                </div>
+        {/* Funnel Chart */}
+        <FunnelChart />
+      </div>
+
+      {/* Redirect Performance Section */}
+      <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div className="flex items-center justify-between">
+          <h3 className="font-bold text-lg">Platform Redirect CTR</h3>
+          <span className="text-primary text-sm font-bold">Total: 482 clicks</span>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {Object.entries(metrics.redirectCTR).map(([platform, ctr]) => (
+            <div key={platform} className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 transition-transform hover:-translate-y-1">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">{platform}</span>
+              <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">{ctr}%</div>
+              <div className="mt-2 h-1 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div className="h-full bg-primary" style={{ width: `${ctr}%` }} />
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
