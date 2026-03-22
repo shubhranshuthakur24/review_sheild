@@ -13,7 +13,10 @@ class BusinessController extends Controller
         $business = $request->user()->businesses()->first();
         
         if (!$business) {
-            return response()->json(['message' => 'No business profile found'], 404);
+            return response()->json([
+                'data' => null,
+                'message' => 'no data found'
+            ], 200);
         }
 
         return new BusinessResource($business);

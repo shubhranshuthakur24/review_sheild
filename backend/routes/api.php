@@ -20,6 +20,15 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        
+        // Email Verification
+        Route::get('/verify-email/{id}/{hash}', [AuthController::class, 'verify'])
+            ->middleware(['signed', 'throttle:6,1'])
+            ->name('verification.verify');
+
+        Route::post('/email/verification-notification', [AuthController::class, 'resendVerification'])
+            ->middleware(['throttle:6,1'])
+            ->name('verification.send');
     });
 });
 

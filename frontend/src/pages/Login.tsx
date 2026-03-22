@@ -16,7 +16,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(loginStart());
-    
+
     // Simulate API call for now
     setTimeout(() => {
       dispatch(loginSuccess({ name: 'Shubhranshu', email }));
